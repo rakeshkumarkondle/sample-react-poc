@@ -6,4 +6,7 @@ This repository shows how you can use ReactJs in your existing AngularJS 1.X app
 
 
 
-To start type : yarn start
+To start:
+  - clone the repo into local
+  - npm install
+  - yarn start

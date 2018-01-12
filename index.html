@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Angular 1.x with React</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css"></link>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBW-M-hYxBBv3451j7JaMQlQgdO-z4dqBU&libraries=places"></script>
+  </head>
+
+  <body>
+    <!--<script src="/node_modules/angular/angular.js"></script>-->
+    <style>
+    @font-face {
+        font-family: LiberationSans;
+        src: url(src/fonts/liberationSans/LiberationSans-Regular.ttf), url(src/fonts/liberationSans/LiberationSans-Regular.woff), url(src/fonts/liberationSans/LiberationSans-Regular.woff2), url(src/fonts/liberationSans/LiberationSans-Regular.otf), url(src/fonts/liberationSans/LiberationSans.eot);
+    }
+    * {
+        //font-family: "Open Sans", sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+    input::-webkit-input-placeholder{
+        color: rgb(247, 148, 42);
+    }
+    .done-true {
+        text-decoration: line-through;
+    }
+    .done-false {
+        text-decoration: "";
+    }
+    .angular-part {
+        background-color: lightskyblue;
+        margin-top: 50px;
+    }
+    .react-part {
+        background-color: cornflowerblue
+    }
+    .list-item {
+        cursor: pointer
+    }
+    .pull-right {
+        float: right;
+    }
+    .accordian-header-title {
+        font-size: 12px;
+        color: #808184;
+        vertical-align: middle;
+        min-width: 205px;
+        font-weight: 300;
+        display: inline-block;
+    }
+    .accordian-header-desc {
+        font-size: 10px;
+        color: #7c7d80;
+        font-weight: 300;
+        display: inline-block;
+    }
+    .accordian-header-desc.filled {
+        font-size: 16px;
+        color: #505050;
+        font-weight: 400;
+    }
+    .ui.button.close-btn {
+        color: #00aeef;
+        font-size: 12px;
+        font-weight: 400;
+        text-transform: uppercase;
+        background-color: #fff;
+        border: none;
+        padding: 0;
+        margin-top: 5px;
+        margin-bottom: 3px;
+    }
+    .ui.button.close-btn:hover {
+        background-color: #fff;
+        color: #00aeef;
+    }
+    .ui.styled.accordion .title {
+        padding: .93em 1em;
+        border-top: 1px solid #f9f9fa;
+        padding-left: 75px;
+    }
+    .segment-control {
+        box-sizing: border-box;
+        color: rgb(88, 89, 91);
+        display: inline-block;
+        font-size: 14px;
+        font-weight: normal;
+        height: 43px;
+        line-height: 20px;
+        position: relative;
+        width: 104px;
+    }
+
+    .segment-control button{
+        outline: none;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(247, 148, 42);
+        box-sizing: border-box;
+        color: rgb(247, 148, 42);
+        cursor: pointer;
+        float: left;
+        font-size: 14px;
+        height: 43px;
+        line-height: 15.4px;
+        margin: 0px -1px 0 0;
+        padding: 1px 6px;
+        text-align: center;
+        width: 105px;
+    }
+
+    .segment-control button.active{
+      background-color: #f7942a;
+      color: #fff;
+    }
+
+    .form-data-fields .form-fields-area{
+      /*float: left;*/
+      padding-left: 45px;
+      border-bottom: 1px solid #f9f9fa;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      height: 50px;
+    }
+    .form-data-fields .form-fields-area>div,.form-data-fields .form-fields-area label,.form-data-fields .form-fields-area input, .form-data-fields .form-fields-area button, .form-data-fields .form-fields-area select{
+      float: left;
+    }
+    .segment-section{
+      clear: left;
+      width: 100%;
+    }
+    .segment-control{
+      width: 85%;
+    }
+
+    .form-data-fields .form-fields-area label{
+        box-sizing: border-box;
+        color: rgb(109, 110, 113);
+        cursor: default;
+        font-size: 10px;
+        font-weight: 300;
+        height: 12px;
+        line-height: 12px;
+        margin-right: 15px;
+        text-align: right;
+        text-transform: capitalize;
+        margin-top: 15px;
+        min-width: 131px;
+    }
+    .form-data-fields .form-fields-area input[type="text"],.ui.input input, .ui.input input:focus, .ui.input.focus input{
+        outline: none;
+        background-color: rgb(255, 255, 255);
+        border: none;
+        box-sizing: border-box;
+        color: rgb(247, 148, 42);
+        cursor: auto;
+        float: left;
+        font-size: 16px;
+        font-weight: 500;
+        height: 40px;
+        margin: 0px;
+        padding: 5px 5px 5px 10px;
+        width: 115px;
+    }
+    .ui.styled.accordion .accordion .content, .ui.styled.accordion .content{
+        background: #fafafa !important;
+    }
+    .date-picker-section>div label{
+      min-width: 70px;
+    }
+    .year-label{
+      width: 131px !important;
+    }
+    .hidden{
+      display: none !important;
+    }
+
+    .ui.default.dropdown:not(.button)>.text, .ui.dropdown:not(.button)>.default.text {
+        color: rgba(0,0,0,.87);
+    }
+    .nested-accordian{
+      padding-left: 50px;
+    }
+    .address-auto-complete-section input{
+      float: left;
+      outline: none;
+      border: none;
+      background: #fff;
+      color: #f7942a;
+      padding: 5px 5px 5px 10px;
+      font-size: 16px;
+      width: 115px;
+      line-height: normal;
+      height: 40px;
+      width: 440px !important;
+      border-radius: 0;
+      -webkit-font-smoothing: antialiased;
+      text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.1);
+    }
+    .pac-container .pac-item, .pac-container .pac-item .pac-item-query {
+        color: #f7942a;
+        background-color: #fff;
+        font-size: 16px;
+    }
+    .pac-container .pac-item * {
+        font-weight: normal !important;
+    }
+    .pac-container:after {
+        background-image: none !important;
+        height: 0px;
+    }
+    .pac-container .pac-item {
+        padding: 5px;
+    }
+    .upload {
+        border: none;
+        background: url(src/images/icons.png) no-repeat scroll -318px -318px #fff;
+        width: 41px;
+        height: 28px;
+        text-indent: -9999px;
+        padding: 0;
+        margin-right: 30px;
+        display: inline-block;
+    }
+    </style>
+
+    <div ng-app="app" class="ui container">
+        <div ng-controller="TodoCtrl">
+            <div class="angular-part">
+              <!-- <span>{{remaining()}} of {{todos.length}} remaining</span>
+              <ul class="unstyled">
+              <li ng-repeat="todo in todos">
+                  <span class="done-{{todo.done}}">{{todo.text}}</span>
+              </li>
+              </ul>
+              <form ng-submit="addTodo()">
+              <input type="text" ng-model="todoText"  size="30"
+                      placeholder="add new todo here">
+              <input class="btn-primary" type="submit" value="add">
+              </form>
+              <div>&nbsp;</div>
+            </div>
+            <div >
+              <react-directive  todos=todos mark-complete="markItemCompleted(text)"></react-directive>
+            </div> -->
+            <react-directive fields="fields" meta-infos="metaInfos" component="ChildComponent"></react-directive>
+            <react-directive fields="fields" meta-infos="metaInfos" component="AboutMeComponent"></react-directive>
+
+        </div>
+    </div>
+
+
+
+    <script src="dist/bundle.min.js"></script>
+
+  </body>
+</html>
